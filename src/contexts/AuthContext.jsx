@@ -4,7 +4,7 @@ import axios from "axios";
 const AuthContext = createContext();
 
 function AuthContextProvider({ children }) {
-  const [user, setUser] = useState({ id: 1 });
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const run = async () => {
