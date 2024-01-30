@@ -1,7 +1,10 @@
 import { useState } from "react";
 import RegisterForm from "./layouts/RegisterForm";
+import Login from "./layouts/Login";
+import useAuth from "./hooks/useAuth";
 
 function App() {
+  const { user, setUser } = useAuth();
   const [check, setcheck] = useState(false);
   return (
     <div
@@ -13,10 +16,11 @@ function App() {
         type="checkbox"
         className="toggle"
         checked={check}
-        onClick={() => setcheck(!check)}
+        onChange={() => setcheck(!check)}
       />
       <hr />
-      <RegisterForm />
+      {/* <RegisterForm /> */}
+      <Login />
     </div>
   );
 }
