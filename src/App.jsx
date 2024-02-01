@@ -1,16 +1,19 @@
 import { useState } from "react";
-import RegisterForm from "./layouts/RegisterForm";
-import Login from "./layouts/Login";
+
 import useAuth from "./hooks/useAuth";
 import AppRouter from "./routes/AppRouter";
 
 function App() {
-  const { user, setUser } = useAuth();
+  const { loading } = useAuth();
   const [check, setcheck] = useState(true);
+
+  if (loading) {
+    return <span className="loading loading-dots loading-lg"></span>;
+  }
   return (
     <div
       className="min-h-screen flex flex-col gap-3"
-      data-theme={check ? "cupcake" : "dark"}
+      // data-theme={check ? "cupcake" : "dark"}
     >
       <AppRouter />
     </div>

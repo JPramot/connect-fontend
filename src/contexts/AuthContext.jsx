@@ -5,10 +5,12 @@ const AuthContext = createContext();
 
 function AuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, serLoading] = useState(true);
 
   useEffect(() => {
     const run = async () => {
       try {
+        serLoading(true);
         const token = localStorage.getItem("token");
         if (!token) {
           return;
@@ -20,12 +22,20 @@ function AuthContextProvider({ children }) {
         setUser(result.data.user);
       } catch (err) {
         console.log(err);
+      } finally {
+        serLoading(false);
       }
     };
     run();
   }, []);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 
 const guestNav = [
   { to: "/", text: "Log in" },
@@ -18,29 +18,30 @@ const studentNav = [
 ];
 
 export default function Header() {
-  const { user } = useAuth();
-  //   const [finalNav, setFinalNav] = useState([]);
+  const { user, logout } = useAuth();
+  // const navgate = useNavigate();
 
-  //   useEffect(() => {
-  //     setFinalNav(
-  //       !user?.role
-  //         ? guestNav
-  //         : user?.role === "teacher"
-  //         ? teacherNav
-  //         : studentNav
-  //     );
-  //   }, [user?.role]);
   const finalNav = !user?.role
     ? guestNav
     : user?.role === "teacher"
     ? teacherNav
     : studentNav;
 
+  const logoutHandle = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
         {/* <Link to="/login">Super Homewore</Link> */}
-        <p className="btn btn-ghost text-xl">Super Homework</p>
+        <p className="btn btn-ghost text-xl">Hi, {user?.firstName}</p>
+        <input
+          type="checkbox"
+          value="cupcake"
+          className="toggle theme-controller"
+        />
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
@@ -49,6 +50,13 @@ export default function Header() {
               <Link to={el.to}>{el.text}</Link>
             </li>
           ))}
+          {user?.role ? (
+            <li>
+              <Link to="#" onClick={logoutHandle}>
+                Log out
+              </Link>
+            </li>
+          ) : null}
         </ul>
       </div>
     </div>
